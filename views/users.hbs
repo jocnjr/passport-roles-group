@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <p>Olá, {{ currentUser.name }} {{#if currentUser.isAdmin}} | <a href="/books/add">Add Book</a> {{/if}}| <a href="/logout">Logout</a></p>
+    <p>Hey, {{ currentUser.name }} {{#if currentUser.isBoss}} | <a href="/users/add">add user</a> {{/if}}| <a href="/logout">logout</a></p>
 
     <hr class="my-4" />
 
@@ -8,7 +8,7 @@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th scope="col">Title</th>
+                <th scope="col">Name</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -20,7 +20,11 @@
                     </td>
                     <td>
                         {{#if owned}}
-                            <a href="/users/edit?user={{_id}}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="/users/edit?user_id={{_id}}" class="btn btn-primary btn-sm">Edit</a>
+                        {{/if}}
+
+                        {{#if ../currentUser.isBoss}}
+                            <a href="/users/delete/{{_id}}" class="btn btn-primary btn-sm">Delete</a>
                         {{/if}}
                     </td>
                 </tr>

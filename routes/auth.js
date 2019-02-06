@@ -6,15 +6,31 @@ const bcryptSalt = 10;
 const passport = require("passport");
 const roles = require('../middlewares/roles');
 
-router.get("/user-add", roles.checkBoss, (req, res, next) => {
+
+router.get("/login", (req, res, next) => {
+  res.render("auth/login", {'errorMessage': req.flash('error')});
+});
+
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/users",
+  failureRedirect: "/login",
+  failureFlash: true,
+  passReqToCallback: true
+}));
+
+router.get("/users/add", (req, res, next) => {
   res.render("user-add");
 });
 
-router.post("/user-add", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const name = req.body.name;
-  const role = req.body.role;
+router.post("/users/add", (req, res, next) => {
+  const {
+    username,
+    password,
+    name,
+    description,
+    profileImg,
+    role
+  } = req.body;
 
   if (username == '' || password == '') {
     res.render('user-add', {
@@ -46,26 +62,13 @@ router.post("/user-add", (req, res, next) => {
 
     newUser.save()
     .then(user => {
-      res.redirect("/");
+      res.redirect("/users");
     })
     .catch(err => { throw new Error(err)});
   })
   .catch(err => { throw new Error(err)});
 
 });
-
-
-router.get("/login", (req, res, next) => {
-  res.render("auth/login", {'errorMessage': req.flash('error')});
-});
-
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/login",
-  failureFlash: true,
-  passReqToCallback: true
-}));
-
 
 router.get("/logout", (req, res, next) => {
   req.logout();

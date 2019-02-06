@@ -1,0 +1,59 @@
+  <div class="container-fluid">
+    <form id="form" action="/users/edit" method="POST">
+    {{#with user}}
+      <input type="hidden" name="userId" value="{{_id}}">
+      <div class="form-group">
+        <label for="name">Name</label><br>
+        <input type="text" name="name"
+          placeholder="add users Name"
+          value="{{name}}">        
+      </div>
+
+      <div class="form-group">
+        <label for="profileImg">Profile Img</label><br>
+        <input type="text" name="profileImg"
+          placeholder="add URL for img"
+          value="{{profileImg}}">        
+          
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label><br>
+        <input type="text" name="description"
+          placeholder="add something about the user"
+          value="{{description}}">
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label><br>
+        <input type="text" name="username"
+          placeholder="add the username"
+          value="{{username}}"
+          >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label><br>
+        <input type="password" name="password"
+          placeholder="enter password">
+      </div>
+
+      <div class="form-group">
+      <label for="role">Role</label><br>
+      <select name='role'>
+        <option value="BOSS" {{#if_equal role "BOSS"}} selected {{/if_equal}}>BOSS</option>
+        <option value="DEV" {{#if_equal role "DEV"}} selected {{/if_equal}}>DEV</option>
+        <option value="TA" {{#if_equal role "TA"}} selected {{/if_equal}}>TA</option>
+        <option value="STUDENT" {{#if_equal role "STUDENT"}} selected {{/if_equal}}>STUDENT</option>
+        <option value="GUEST" {{#if_equal role "GUEST"}} selected {{/if_equal}}>GUEST</option>
+      </select>
+      </div>
+
+      {{#if msgError}}
+        <div class="alert alert-danger">{{ msgError }}</div>
+      {{/if}}
+
+      <button class="btn btn-primary btn-block">Create account</button>
+    {{/with}}
+    </form>
+  </div>
+  

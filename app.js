@@ -32,9 +32,18 @@ app.use(cookieParser());
 
 // Express View engine setup
 
+hbs.registerHelper('if_equal', function (a, b, opts) {
+  if (a == b) {
+      return opts.fn(this) 
+  } else { 
+      return opts.inverse(this) 
+  } 
+});
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 // passport local config
 

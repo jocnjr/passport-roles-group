@@ -70,6 +70,51 @@ router.post("/users/add", (req, res, next) => {
 
 });
 
+router.get("/users/edit/:id", (req, res, next) => {
+  const userId = req.params.id
+  console.log(userId)
+  User.findOne({ _id: userId })
+    .then(user => {
+      console.log(user)
+      if (user._id.equals(req.user._id)) {
+        res.render("user-edit", { user });
+      } else {
+        // no access for you!
+        res.redirect(`/user/${user._id}`);
+      }
+      
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
+router.post("/users/edit", (req, res, next) => {
+  const userId = req.body.userId;
+  let { name, profileImg, description, username, password, role } = req.body;
+
+  if (password) {
+    const salt = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    password = hashPass;
+
+
+  }
+
+  User.update(
+    { _id: userId },
+    { $set: { name, profileImg, description, username, password, role } },
+    { new: true } 
+  )
+    .then(user => {
+      res.redirect(`/users`);
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+});
+
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/");

@@ -32,7 +32,7 @@ router.get("/users", (req, res, next) => {
 router.get("/user/:id", (req, res, next) => {
   let userId = req.params.id;
   if (!/^[0-9a-fA-F]{24}$/.test(userId)) return res.status(404).send('not-found');
-  user.findOne({ _id: userId })
+  User.findOne({ _id: userId })
     // .populate("author")
     .then(user => {
       // res.send(user);
@@ -42,6 +42,7 @@ router.get("/user/:id", (req, res, next) => {
       console.log(error);
     });
 });
+
 
 router.get("/users/delete/:id", (req, res, next) => {
   let userId = req.params.id;
@@ -60,7 +61,6 @@ router.post("/users/delete", (req, res, next) => {
   let userId = req.body.id;
   User.deleteOne({ _id: userId })
     .then(user => {
-      console(user);
       res.render("user-delete", { message: `user ${user.name} deleted!` });    
     })
     .catch(err => {

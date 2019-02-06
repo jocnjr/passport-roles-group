@@ -5,6 +5,8 @@ const userSchema = new Schema({
   username: { type: String, unique: true },
   name: String,
   password: String,
+  profileImg: String,
+  description: String,
   facebookId: String,
   role: {
     type: String,

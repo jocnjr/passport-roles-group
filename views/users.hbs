@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <p>Olá, {{ currentUser.name }} {{#if currentUser.isAdmin}} | <a href="/books/add">Add Book</a> {{/if}}| <a href="/logout">Logout</a></p>
+
+    <hr class="my-4" />
+
+    <h1>users</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+                <tr>
+                    <td>
+                        <a href="/user/{{_id}}">{{name}}</a>
+                    </td>
+                    <td>
+                        {{#if owned}}
+                            <a href="/users/edit?user={{_id}}" class="btn btn-primary btn-sm">Edit</a>
+                        {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

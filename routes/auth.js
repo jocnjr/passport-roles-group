@@ -18,7 +18,7 @@ router.post("/login", passport.authenticate("local", {
   passReqToCallback: true
 }));
 
-router.get("/users/add", (req, res, next) => {
+router.get("/users/add", roles.checkBoss, (req, res, next) => {
   res.render("user-add");
 });
 

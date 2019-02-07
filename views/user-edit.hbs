@@ -23,30 +23,34 @@
           placeholder="add something about the user"
           value="{{description}}">
       </div>
-      <div class="form-group">
-        <label for="username">Username</label><br>
-        <input type="text" name="username"
-          placeholder="add the username"
-          value="{{username}}"
-          >
-      </div>
+      {{#unless facebookId}}
+        <div class="form-group">
+          <label for="username">Username</label><br>
+          <input type="text" name="username"
+            placeholder="add the username"
+            value="{{username}}"
+            >
+        </div>
 
-      <div class="form-group">
-        <label for="password">Password</label><br>
-        <input type="password" name="password"
-          placeholder="enter password">
-      </div>
+        <div class="form-group">
+          <label for="password">Password</label><br>
+          <input type="password" name="password"
+            placeholder="enter password">
+        </div>
+      {{/unless}}
 
-      <div class="form-group">
-      <label for="role">Role</label><br>
-      <select name='role'>
-        <option value="BOSS" {{#if_equal role "BOSS"}} selected {{/if_equal}}>BOSS</option>
-        <option value="DEV" {{#if_equal role "DEV"}} selected {{/if_equal}}>DEV</option>
-        <option value="TA" {{#if_equal role "TA"}} selected {{/if_equal}}>TA</option>
-        <option value="STUDENT" {{#if_equal role "STUDENT"}} selected {{/if_equal}}>STUDENT</option>
-        <option value="GUEST" {{#if_equal role "GUEST"}} selected {{/if_equal}}>GUEST</option>
-      </select>
-      </div>
+      {{#if_not_equal role 'STUDENT'}}
+        <div class="form-group">
+        <label for="role">Role</label><br>
+        <select name='role'>
+          <option value="BOSS" {{#if_equal role "BOSS"}} selected {{/if_equal}}>BOSS</option>
+          <option value="DEV" {{#if_equal role "DEV"}} selected {{/if_equal}}>DEV</option>
+          <option value="TA" {{#if_equal role "TA"}} selected {{/if_equal}}>TA</option>
+          <option value="STUDENT" {{#if_equal role "STUDENT"}} selected {{/if_equal}}>STUDENT</option>
+          <option value="GUEST" {{#if_equal role "GUEST"}} selected {{/if_equal}}>GUEST</option>
+        </select>
+        </div>
+      {{/if_not_equal}}
 
       {{#if msgError}}
         <div class="alert alert-danger">{{ msgError }}</div>

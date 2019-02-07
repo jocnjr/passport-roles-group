@@ -14,7 +14,11 @@ router.use(ensureLogin.ensureLoggedIn());
 router.get("/users", (req, res, next) => {
   if (req.user.role === 'BOSS') req.user.isBoss = true;
 
-  User.find({})
+  const filter = {};
+
+  if (req.user.role === 'STUDENT') filter.role = 'STUDENT';
+
+  User.find(filter)
     .then(users => {
 
       users.forEach(user => {

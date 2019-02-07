@@ -8,6 +8,7 @@ const logger = require('morgan');
 const path = require('path');
 const session = require("express-session");
 const passport = require("passport");
+const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
@@ -33,6 +34,13 @@ app.use(cookieParser());
 
 hbs.registerHelper('if_equal', function (a, b, opts) {
   if (a == b) {
+      return opts.fn(this) 
+  } else { 
+      return opts.inverse(this) 
+  } 
+});
+hbs.registerHelper('if_not_equal', function (a, b, opts) {
+  if (a != b) {
       return opts.fn(this) 
   } else { 
       return opts.inverse(this) 
@@ -82,6 +90,39 @@ passport.use(new LocalStrategy({
     return done(null, user);
   });
 }));
+
+// passport facebook strategy config
+
+passport.use(new FacebookStrategy({
+  clientID: '2231444697126299',
+  clientSecret: '0c10ef88cd50ca8db0ec67f8ee83a32a',
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},(accessToken, refreshToken, profile, done) => {
+  User.findOne({ facebookId: profile.id })
+  .then((user, err) => {
+    if (err) {
+      return done(err);
+    }
+    if (user) {
+      return done(null, user);
+    }
+
+    const newUser = new User({
+      name: profile.displayName,
+      role: 'STUDENT', 
+      facebookId: profile.id
+    });
+
+    newUser.save()
+    .then(user => {
+      done(null, newUser);
+    })
+  })
+  .catch(error => {
+    done(error)
+  })
+}
+));
 
 app.use(passport.initialize());
 app.use(passport.session());

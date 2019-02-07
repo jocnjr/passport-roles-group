@@ -73,7 +73,7 @@ router.post("/users/add", (req, res, next) => {
 
 router.get("/users/edit/:id", (req, res, next) => {
   const userId = req.params.id
-  console.log(userId)
+
   User.findOne({ _id: userId })
     .then(user => {
       console.log(user)
@@ -99,9 +99,9 @@ router.post("/users/edit", (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     password = hashPass;
-
-
   }
+
+  if (!role) role = 'STUDENT';
 
   User.update(
     { _id: userId },
@@ -220,6 +220,12 @@ router.post("/courses/edit", (req, res, next) => {
     });
 });
 
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',passport.authenticate('facebook', {
+  successRedirect: '/courses',
+  failureRedirect: '/login' })
+);
 
 router.get("/logout", (req, res, next) => {
   req.logout();

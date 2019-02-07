@@ -1,0 +1,69 @@
+  <div class="container-fluid">
+    <form id="form" action="/courses/edit" method="POST">
+    {{#with course}}
+      <input type="hidden" name="courseId" value="{{_id}}">
+      <div class="form-group">
+        <label for="title">title</label><br>
+        <input type="text" name="title"
+          placeholder="add courses title"
+          value="{{title}}">        
+      </div>
+      <div class="form-group">
+        <label for="courseImg">course img</label><br>
+        <input type="text" name="courseImg"
+          placeholder="add URL for course img"
+          value="{{courseImg}}">        
+          
+      </div>
+      <div class="form-group">
+        <label for="startDate">start date</label><br>
+        <input type="text" name="startDate"
+          placeholder="add startDate"
+          value="{{startDate}}">        
+      </div>
+
+      <div class="form-group">
+        <label for="endDate">end date</label><br>
+        <input type="text" name="endDate"
+          placeholder="add endDate"
+          value="{{endDate}}">        
+      </div>
+
+      <div class="form-group">
+        <label for="description">description</label><br>
+        <input type="text" name="description"
+          placeholder="add something about the course"
+          value="{{description}}">
+      </div>
+
+      <div class="form-group">
+        <label for="leadTeacher">lead teatcher</label><br>
+        <input type="text" name="leadTeacher"
+          placeholder="add LTs name"
+          value="{{leadTeacher}}">
+      </div>
+
+      <div class="form-group">
+        <label for="TAs">TAs</label><br>
+        <input type="text" name="TAs"
+          placeholder="add TAs name"
+          value="{{TAs}}">
+      </div>
+
+      <div class="form-group">
+      <label for="status">status</label><br>
+      <select name='status'>
+        <option value="ON" {{#if_equal status "ON"}} selected {{/if_equal}}>ON</option>
+        <option value="OFF" {{#if_equal status "OFF"}} selected {{/if_equal}}>OFF</option>
+      </select>
+      </div>
+
+      {{#if msgError}}
+        <div class="alert alert-danger">{{ msgError }}</div>
+      {{/if}}
+
+      <button class="btn btn-primary btn-block">Edit Course</button>
+    {{/with}}
+    </form>
+  </div>
+  

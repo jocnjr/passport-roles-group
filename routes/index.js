@@ -25,7 +25,7 @@ router.get("/users", (req, res, next) => {
       res.render("users", { users, currentUser: req.user });
     })
     .catch(error => {
-      console.log(error);
+      throw new Error(error);
     });
 });
 
@@ -39,7 +39,7 @@ router.get("/user/:id", (req, res, next) => {
       res.render("user-detail", { user });
     })
     .catch(error => {
-      console.log(error);
+      throw new Error(error);
     });
 });
 
@@ -53,7 +53,7 @@ router.get("/users/delete/:id", (req, res, next) => {
       res.render("user-delete", { user });
     })
     .catch(error => {
-      console.log(error);
+      throw new Error(error);
     });
 });
 
@@ -63,9 +63,61 @@ router.post("/users/delete", (req, res, next) => {
     .then(user => {
       res.render("user-delete", { message: `user ${user.name} deleted!` });    
     })
+    .catch(error => {
+      throw new Error(error);
+    });
+});
+
+// courses routes
+
+router.get("/courses", (req, res, next) => {
+  if (req.user.role === 'TA') req.user.isTA = true;
+
+  Course.find({})
+    .then(courses => {
+      res.render("courses", { courses, currentUser: req.user });
+    })
+    .catch(error => {
+      throw new Error(error);
+    });
+});
+
+router.get("/course/:id", (req, res, next) => {
+  let courseId = req.params.id;
+  if (!/^[0-9a-fA-F]{24}$/.test(courseId)) return res.status(404).send('not-found');
+  Course.findOne({ _id: courseId })
+    // .populate("author")
+    .then(course => {
+      // res.send(user);
+      res.render("course-detail", { course });
+    })
+    .catch(error => {
+      throw new Error(error);
+    });
+});
+
+
+router.get("/courses/delete/:id", (req, res, next) => {
+  let courseId = req.params.id;
+  if (!/^[0-9a-fA-F]{24}$/.test(courseId)) return res.status(404).send('not-found');
+  Course.findOne({ _id: courseId })
+    // .populate("author")
+    .then(course => {
+      res.render("user-delete", { course });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
+router.post("/courses/delete", (req, res, next) => {
+  let courseId = req.body.id;
+  User.deleteOne({ _id: courseId })
+    .then(course => {
+      res.render("course-delete", { message: `user ${course.title} deleted!` });    
+    })
     .catch(err => {
       throw new Error(err);
     });
 });
-
 module.exports = router;

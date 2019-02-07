@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <p>Hey, {{ currentUser.name }} {{#if currentUser.isBoss}} | <a href="/users/add">add user</a> {{/if}} {{#if currentUser.isTA}} | <a href="/courses/add">add course</a> {{/if}}| <a href="/logout">logout</a></p>
+
+    <hr class="my-4" />
+
+    <h1>courses</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each courses}}
+                <tr>
+                    <td>
+                        <a href="/course/{{_id}}">{{title}}</a>
+                    </td>
+                    <td>
+                        <a href="/courses/edit/{{_id}}" class="btn btn-primary btn-sm">Edit</a>
+
+                        {{#if ../currentUser.isTA}}
+                            <a href="/courses/delete/{{_id}}" class="btn btn-primary btn-sm">Delete</a>
+                        {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

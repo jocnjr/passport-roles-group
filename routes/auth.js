@@ -12,7 +12,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-  successRedirect: "/users",
+  successRedirect: "/",
   failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
@@ -85,7 +85,7 @@ router.get("/users/edit/:id", (req, res, next) => {
       
     })
     .catch(error => {
-      console.log(error);
+      throw new Error(error);
     });
 });
 
@@ -110,10 +110,115 @@ router.post("/users/edit", (req, res, next) => {
     .then(user => {
       res.redirect(`/users`);
     })
-    .catch(err => {
-      throw new Error(err);
+    .catch(error => {
+      throw new Error(error);
     });
 });
+
+
+// courses routes
+
+
+router.get("/courses/add", roles.checkTA, (req, res, next) => {
+  res.render("course-add");
+});
+
+router.post("/courses/add", (req, res, next) => {
+  const {
+    title,
+    leadTeacher,
+    startDate,
+    endDate,
+    TAs,
+    courseImg,
+    description,
+    status
+  } = req.body;
+
+  if (title == '') {
+    res.render('course-add', {
+      msgError: `title can't be empty`
+    })
+    return;
+  }
+
+  Course.findOne({ "title": title })
+  .then(course => {
+    if (course !== null) {
+      res.render("course-add", {
+        msgError: "The course with that title already exists!"
+      });
+      return;
+    }
+
+    const newCourse = new Course({
+      title,
+      leadTeacher,
+      startDate,
+      endDate,
+      TAs,
+      courseImg,
+      description,
+      status
+    });
+
+    newCourse.save()
+    .then(course => {
+      res.redirect("/courses");
+    })
+    .catch(err => { throw new Error(err)});
+  })
+  .catch(err => { throw new Error(err)});
+
+});
+
+router.get("/courses/edit/:id", checkTA, (req, res, next) => {
+  const courseId = req.params.id
+
+  Course.findOne({ _id: courseId })
+    .then(course => {
+      res.render("course-edit", { course });
+    })
+    .catch(error => {
+      throw new Error(error);
+    });
+});
+
+router.post("/courses/edit", (req, res, next) => {
+  const courseId = req.body.courseId;
+  const {
+    title,
+    leadTeacher,
+    startDate,
+    endDate,
+    TAs,
+    courseImg,
+    description,
+    status
+  } = req.body;
+
+  Course.update(
+    { _id: userId },
+    { $set: {
+      title,
+      leadTeacher,
+      startDate,
+      endDate,
+      TAs,
+      courseImg,
+      description,
+      status }
+    },
+    { new: true } 
+  )
+    .then(course => {
+      res.redirect(`/courses`);
+    })
+    .catch(error => {
+      throw new Error(error);
+    });
+});
+
 
 router.get("/logout", (req, res, next) => {
   req.logout();

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const User = require('../models/user');
+const Course = require("../models/course");
 
 router.get("/", (req, res, next) => {
   res.render("home");
@@ -103,7 +104,7 @@ router.get("/courses/delete/:id", (req, res, next) => {
   Course.findOne({ _id: courseId })
     // .populate("author")
     .then(course => {
-      res.render("user-delete", { course });
+      res.render("course-delete", { course });
     })
     .catch(error => {
       console.log(error);
@@ -112,9 +113,9 @@ router.get("/courses/delete/:id", (req, res, next) => {
 
 router.post("/courses/delete", (req, res, next) => {
   let courseId = req.body.id;
-  User.deleteOne({ _id: courseId })
+  Course.deleteOne({ _id: courseId })
     .then(course => {
-      res.render("course-delete", { message: `user ${course.title} deleted!` });    
+      res.render("course-delete", { message: `course ${course.title} deleted!` });    
     })
     .catch(err => {
       throw new Error(err);

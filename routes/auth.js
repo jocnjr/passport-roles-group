@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const passport = require("passport");
 const roles = require('../middlewares/roles');
+const Course = require("../models/course");
 
 
 router.get("/login", (req, res, next) => {
@@ -198,7 +199,7 @@ router.post("/courses/edit", (req, res, next) => {
   } = req.body;
 
   Course.update(
-    { _id: userId },
+    { _id: courseId },
     { $set: {
       title,
       leadTeacher,

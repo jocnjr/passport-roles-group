@@ -121,7 +121,11 @@ router.post("/users/edit", (req, res, next) => {
 
 
 router.get("/courses/add", roles.checkTA, (req, res, next) => {
-  res.render("course-add");
+  User.find({role: 'STUDENT'})
+  .then(users => {
+    res.render("course-add", {allStudents: users });
+  })
+  .catch(err => { throw new Error(err) });
 });
 
 router.post("/courses/add", (req, res, next) => {
@@ -133,6 +137,7 @@ router.post("/courses/add", (req, res, next) => {
     TAs,
     courseImg,
     description,
+    students,
     status
   } = req.body;
 
@@ -160,6 +165,7 @@ router.post("/courses/add", (req, res, next) => {
       TAs,
       courseImg,
       description,
+      students,
       status
     });
 
@@ -177,8 +183,13 @@ router.get("/courses/edit/:id", checkTA, (req, res, next) => {
   const courseId = req.params.id
 
   Course.findOne({ _id: courseId })
+    .populate('students')
     .then(course => {
-      res.render("course-edit", { course });
+      User.find({role: 'STUDENT'})
+      .then(users => {
+        res.render("course-edit", { course, allStudents: users });
+      })
+      .catch(err => { throw new Error(err) });
     })
     .catch(error => {
       throw new Error(error);
@@ -195,7 +206,8 @@ router.post("/courses/edit", (req, res, next) => {
     TAs,
     courseImg,
     description,
-    status
+    status,
+    students
   } = req.body;
 
   Course.update(
@@ -208,7 +220,9 @@ router.post("/courses/edit", (req, res, next) => {
       TAs,
       courseImg,
       description,
-      status }
+      status,
+      students
+     }
     },
     { new: true } 
   )

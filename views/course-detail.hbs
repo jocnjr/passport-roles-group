@@ -6,9 +6,18 @@
   <p>dates: from {{course.startDate}} to {{course.endDate}}</p>
 
   <p>{{course.description}}</p>
+  <hr class="my-4" />
 
-  <p>{{course.leadTeacher}}</p>
-  <p>{{course.TAs}}</p>
+  <p>lead teacher: {{course.leadTeacher}}</p>
+  <p>TA: {{course.TAs}}</p>
+  <p>students</p>
+  <ul>
+  {{#each course.students}}
+    <li>{{this.name}}</li>
+  {{/each}}
+  </ul>
+
+
   <hr class="my-4" />
   <a href="/courses">Return</a>
 </div>

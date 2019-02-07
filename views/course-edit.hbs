@@ -51,6 +51,15 @@
       </div>
 
       <div class="form-group">
+      <label for="status">students</label><br>
+      <select name='students' multiple>
+      {{#each ../allStudents}}
+        <option value="{{_id}}">{{name}}</option>
+      {{/each}}
+      </select>
+      </div>      
+
+      <div class="form-group">
       <label for="status">status</label><br>
       <select name='status'>
         <option value="ON" {{#if_equal status "ON"}} selected {{/if_equal}}>ON</option>

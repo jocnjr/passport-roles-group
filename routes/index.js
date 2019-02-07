@@ -91,7 +91,7 @@ router.get("/course/:id", (req, res, next) => {
   let courseId = req.params.id;
   if (!/^[0-9a-fA-F]{24}$/.test(courseId)) return res.status(404).send('not-found');
   Course.findOne({ _id: courseId })
-    // .populate("author")
+    .populate("students")
     .then(course => {
       // res.send(user);
       res.render("course-detail", { course });

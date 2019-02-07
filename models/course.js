@@ -9,7 +9,8 @@ const courseSchema = new Schema({
   TAs: String,
   courseImg: String,
   description: String,
-  status: {type: String, enum: ['ON', 'OFF']}
+  status: {type: String, enum: ['ON', 'OFF']},
+  students: [ {type: Schema.Types.ObjectId, ref: 'User'} ]
 }, {
   timestamps: true
 });

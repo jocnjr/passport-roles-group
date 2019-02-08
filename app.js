@@ -13,6 +13,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
 const flash = require("connect-flash");
+const Config = require('./config.js');
 const PORT = 3000;
 
 mongoose
@@ -94,10 +95,10 @@ passport.use(new LocalStrategy({
 // passport facebook strategy config
 
 passport.use(new FacebookStrategy({
-  clientID: '2231444697126299',
-  clientSecret: '0c10ef88cd50ca8db0ec67f8ee83a32a',
+  clientID: Config.facebook.clientID,
+  clientSecret: Config.facebook.clientSecret,
   callbackURL: "http://localhost:3000/auth/facebook/callback"
-},(accessToken, refreshToken, profile, done) => {
+}, (accessToken, refreshToken, profile, done) => {
   User.findOne({ facebookId: profile.id })
   .then((user, err) => {
     if (err) {
@@ -108,6 +109,7 @@ passport.use(new FacebookStrategy({
     }
 
     const newUser = new User({
+      username: `facebook_${profile.id}`,
       name: profile.displayName,
       role: 'STUDENT', 
       facebookId: profile.id

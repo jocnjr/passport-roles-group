@@ -53,6 +53,11 @@ router.post("/courses/add", (req, res, next) => {
       status
     } = req.body;
   
+    const location = {
+      type: 'Point',
+      coordinates: [req.body.lng, req.body.lat]
+    };
+
     if (title == '') {
       res.render('course-add', {
         msgError: `title can't be empty`
@@ -77,6 +82,7 @@ router.post("/courses/add", (req, res, next) => {
         TAs,
         courseImg,
         description,
+        location,
         students,
         status
       });
@@ -122,6 +128,11 @@ router.post("/courses/edit", (req, res, next) => {
       students
     } = req.body;
   
+    const location = {
+      type: 'Point',
+      coordinates: [req.body.lng, req.body.lat]
+    };
+    console.log(location)
     Course.update(
       { _id: courseId },
       { $set: {
@@ -132,6 +143,7 @@ router.post("/courses/edit", (req, res, next) => {
         TAs,
         courseImg,
         description,
+        location,
         status,
         students
        }

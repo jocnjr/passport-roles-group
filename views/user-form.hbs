@@ -1,7 +1,4 @@
-  <div class="container-fluid">
-
-    {{> top}}
-
+<div class="container-fluid">
     <h1>{{#if user._id}}edit{{else}}add{{/if}} user</h1>
 
     <form id="form" action="/users/{{#if user._id}}edit{{else}}add{{/if}}" method="POST">
@@ -64,5 +61,4 @@
       <button class="btn btn-primary btn-block">{{#if _id}}edit{{else}}add{{/if}} user</button>
     {{/with}}
     </form>
-  </div>
-  
+</div>

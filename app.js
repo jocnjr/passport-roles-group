@@ -139,12 +139,19 @@ const siteRoutes = require('./routes/index');
 const usersRoutes = require('./routes/users');
 const coursesRoutes = require('./routes/courses');
 
+app.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.currentUser = req.user;
+  }
+
+  return next();
+});
+
 app.use('/', authRoutes);
 app.use('/', siteRoutes);
 
 // protecting pages below
 app.use(ensureLogin.ensureLoggedIn());
-
 app.use('/', usersRoutes);
 app.use('/', coursesRoutes);
 

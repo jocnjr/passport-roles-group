@@ -4,6 +4,7 @@ body {
 
 .navbar {
   background-color: #000;
+  color: #FFF;
 }
 
 .navbar-dark .navbar-nav .nav-link {

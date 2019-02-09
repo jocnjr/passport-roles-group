@@ -18,7 +18,10 @@
             {{#each courses}}
                 <tr>
                     <td>
-                        <a href="/course/{{_id}}">{{title}}</a>
+                        <a href="/course/{{_id}}">
+                            {{title}}<br />
+                            <span class="badge badge-secondary">{{students.length}}</span>
+                        </a>
                     </td>
                     <td>
                         <a href="/courses/edit/{{_id}}" class="btn btn-primary btn-sm">Edit</a>

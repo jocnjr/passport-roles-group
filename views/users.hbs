@@ -18,7 +18,10 @@
             {{#each users}}
                 <tr>
                     <td>
-                        <a href="/user/{{_id}}">{{name}}</a>
+                        <a href="/user/{{_id}}">
+                            {{name}}<br />
+                            <span class="badge badge-secondary">{{role}}</span>
+                        </a>
                     </td>
                     <td>
                         {{#if owned}}

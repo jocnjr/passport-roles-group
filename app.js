@@ -8,6 +8,7 @@ const logger = require('morgan');
 const path = require('path');
 const session = require("express-session");
 const passport = require("passport");
+const ensureLogin = require("connect-ensure-login");
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user");
@@ -130,17 +131,22 @@ passport.use(new FacebookStrategy({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-
 // default value for title local
 app.locals.title = 'Ironhack Management System';
 
 const authRoutes = require('./routes/auth');
 const siteRoutes = require('./routes/index');
+const usersRoutes = require('./routes/users');
+const coursesRoutes = require('./routes/courses');
 
 app.use('/', authRoutes);
 app.use('/', siteRoutes);
+
+// protecting pages below
+app.use(ensureLogin.ensureLoggedIn());
+
+app.use('/', usersRoutes);
+app.use('/', coursesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);

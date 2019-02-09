@@ -76,7 +76,7 @@
         <div class="alert alert-danger">{{ msgError }}</div>
       {{/if}}
 
-      <button class="btn btn-primary btn-block">Edit Course</button>
+      <button class="btn btn-primary btn-block">{{#if _id}}edit{{else}}add{{/if}} course</button>
     {{/with}}
     </form>
 </div>

@@ -53,6 +53,19 @@
       </div>
 
       <div class="form-group">
+        <label for="lat">latitude</label><br>
+        <input type="text" class="form-control" name="lat"
+          placeholder="add lat name"
+          value="{{location.coordinates.[0]}}">
+      </div>
+
+      <div class="form-group">
+        <label for="lng">longitude</label><br>
+        <input type="text" class="form-control" name="lng"
+          placeholder="add lng name"
+          value="{{location.coordinates.[1]}}">
+      </div>
+      <div class="form-group">
       <label for="status">students</label><br>
       <select name="students" class="form-control" multiple>
       {{#each ../allStudents}}

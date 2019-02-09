@@ -4,14 +4,14 @@
       <input type="hidden" name="userId" value="{{_id}}">
       <div class="form-group">
         <label for="name">Name</label><br>
-        <input type="text" name="name"
+        <input type="text" class="form-control" name="name"
           placeholder="add users Name"
           value="{{name}}">        
       </div>
 
       <div class="form-group">
         <label for="profileImg">Profile Img</label><br>
-        <input type="text" name="profileImg"
+        <input type="text" class="form-control" name="profileImg"
           placeholder="add URL for img"
           value="{{profileImg}}">        
           
@@ -19,14 +19,14 @@
 
       <div class="form-group">
         <label for="description">Description</label><br>
-        <input type="text" name="description"
+        <input type="text" class="form-control" name="description"
           placeholder="add something about the user"
           value="{{description}}">
       </div>
       {{#unless facebookId}}
         <div class="form-group">
           <label for="username">Username</label><br>
-          <input type="text" name="username"
+          <input type="text" class="form-control" name="username"
             placeholder="add the username"
             value="{{username}}"
             >
@@ -34,7 +34,7 @@
 
         <div class="form-group">
           <label for="password">Password</label><br>
-          <input type="password" name="password"
+          <input type="password" class="form-control" name="password"
             placeholder="enter password">
         </div>
       {{/unless}}
@@ -42,7 +42,7 @@
       {{#if_not_equal role 'STUDENT'}}
         <div class="form-group">
         <label for="role">Role</label><br>
-        <select name='role'>
+        <select name="role" class="form-control">
           <option value="BOSS" {{#if_equal role "BOSS"}} selected {{/if_equal}}>BOSS</option>
           <option value="DEV" {{#if_equal role "DEV"}} selected {{/if_equal}}>DEV</option>
           <option value="TA" {{#if_equal role "TA"}} selected {{/if_equal}}>TA</option>

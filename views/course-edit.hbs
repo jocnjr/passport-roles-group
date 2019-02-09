@@ -4,55 +4,55 @@
       <input type="hidden" name="courseId" value="{{_id}}">
       <div class="form-group">
         <label for="title">title</label><br>
-        <input type="text" name="title"
+        <input type="text" class="form-control" name="title"
           placeholder="add courses title"
           value="{{title}}">        
       </div>
       <div class="form-group">
         <label for="courseImg">course img</label><br>
-        <input type="text" name="courseImg"
+        <input type="text" class="form-control" name="courseImg"
           placeholder="add URL for course img"
           value="{{courseImg}}">        
           
       </div>
       <div class="form-group">
         <label for="startDate">start date</label><br>
-        <input type="text" name="startDate"
+        <input type="text" class="form-control" name="startDate"
           placeholder="add startDate"
           value="{{startDate}}">        
       </div>
 
       <div class="form-group">
         <label for="endDate">end date</label><br>
-        <input type="text" name="endDate"
+        <input type="text" class="form-control" name="endDate"
           placeholder="add endDate"
           value="{{endDate}}">        
       </div>
 
       <div class="form-group">
         <label for="description">description</label><br>
-        <input type="text" name="description"
+        <input type="text" class="form-control" name="description"
           placeholder="add something about the course"
           value="{{description}}">
       </div>
 
       <div class="form-group">
         <label for="leadTeacher">lead teatcher</label><br>
-        <input type="text" name="leadTeacher"
+        <input type="text" class="form-control" name="leadTeacher"
           placeholder="add LTs name"
           value="{{leadTeacher}}">
       </div>
 
       <div class="form-group">
         <label for="TAs">TAs</label><br>
-        <input type="text" name="TAs"
+        <input type="text" class="form-control" name="TAs"
           placeholder="add TAs name"
           value="{{TAs}}">
       </div>
 
       <div class="form-group">
       <label for="status">students</label><br>
-      <select name='students' multiple>
+      <select name="students" class="form-control" multiple>
       {{#each ../allStudents}}
         <option value="{{_id}}">{{name}}</option>
       {{/each}}
@@ -61,7 +61,7 @@
 
       <div class="form-group">
       <label for="status">status</label><br>
-      <select name='status'>
+      <select name="status" class="form-control">
         <option value="ON" {{#if_equal status "ON"}} selected {{/if_equal}}>ON</option>
         <option value="OFF" {{#if_equal status "OFF"}} selected {{/if_equal}}>OFF</option>
       </select>

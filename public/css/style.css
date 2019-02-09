@@ -50,3 +50,8 @@ a {
   margin: 30px auto;
   width: 380px;
 }
+
+#map {
+  height: 500px;
+  width: 100%;
+ }

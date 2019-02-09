@@ -10,10 +10,13 @@ const courseSchema = new Schema({
   courseImg: String,
   description: String,
   status: {type: String, enum: ['ON', 'OFF']},
-  students: [ {type: Schema.Types.ObjectId, ref: 'User'} ]
+  students: [ {type: Schema.Types.ObjectId, ref: 'User'} ],
+  location: { type: { type: String }, coordinates: [Number] }
 }, {
   timestamps: true
 });
+
+courseSchema.index({location: '2dsphere'});
 
 const Course = mongoose.model("Course", courseSchema);
 

@@ -9,7 +9,7 @@ router.get("/courses", (req, res, next) => {
   
     Course.find({})
       .then(courses => {
-        res.render("courses", { courses, currentUser: req.user });
+        res.render("courses", { courses });
       })
       .catch(error => {
         throw new Error(error);
@@ -23,7 +23,7 @@ router.get("/course/:id", (req, res, next) => {
       .populate("students")
       .then(course => {
         // res.send(user);
-        res.render("course-detail", { course, currentUser: req.user });
+        res.render("course-detail", { course });
       })
       .catch(error => {
         throw new Error(error);
@@ -35,7 +35,7 @@ router.get("/courses/add", roles.checkTA, (req, res, next) => {
     .then(users => {
       let course = new Course();
       course._id = null;
-      res.render("course-form", { course, allStudents: users, currentUser: req.user });
+      res.render("course-form", { course, allStudents: users });
     })
     .catch(err => { throw new Error(err) });
 });
@@ -99,13 +99,18 @@ router.post("/courses/add", (req, res, next) => {
   
 router.get("/courses/edit/:id", checkTA, (req, res, next) => {
     const courseId = req.params.id
-  
     Course.findOne({ _id: courseId })
-      .populate('students')
+      // .populate('students')
       .then(course => {
+        let strArr = course.students.map(u => String(u));
         User.find({role: 'STUDENT'})
         .then(users => {
-          res.render("course-form", { course, allStudents: users, currentUser: req.user });
+          users.forEach((u) => {
+            if (strArr.includes(String(u._id))) {
+              u.enrolled = true;
+            }
+          });
+          res.render("course-form", { course, allStudents: users} );
         })
         .catch(err => { throw new Error(err) });
       })
@@ -164,7 +169,7 @@ router.get("/courses/delete/:id", (req, res, next) => {
     Course.findOne({ _id: courseId })
       // .populate("author")
       .then(course => {
-        res.render("course-delete", { course, currentUser: req.user });
+        res.render("course-delete", { course });
       })
       .catch(error => {
         console.log(error);

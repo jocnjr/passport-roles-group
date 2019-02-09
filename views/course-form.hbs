@@ -69,7 +69,7 @@
       <label for="status">students</label><br>
       <select name="students" class="form-control" multiple>
       {{#each ../allStudents}}
-        <option value="{{_id}}">{{name}}</option>
+        <option value="{{_id}}" {{#if enrolled}} selected {{/if}}>{{name}}</option>
       {{/each}}
       </select>
       </div>      

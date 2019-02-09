@@ -123,7 +123,9 @@ router.post("/users/edit", (req, res, next) => {
 router.get("/courses/add", roles.checkTA, (req, res, next) => {
   User.find({role: 'STUDENT'})
   .then(users => {
-    res.render("course-add", {allStudents: users });
+    let course = new Course();
+    course._id = null;
+    res.render("course-form", { course, allStudents: users, currentUser: req.user });
   })
   .catch(err => { throw new Error(err) });
 });
@@ -151,7 +153,7 @@ router.post("/courses/add", (req, res, next) => {
   Course.findOne({ "title": title })
   .then(course => {
     if (course !== null) {
-      res.render("course-add", {
+      res.render("course-form", {
         msgError: "The course with that title already exists!"
       });
       return;
@@ -187,7 +189,7 @@ router.get("/courses/edit/:id", checkTA, (req, res, next) => {
     .then(course => {
       User.find({role: 'STUDENT'})
       .then(users => {
-        res.render("course-edit", { course, allStudents: users });
+        res.render("course-form", { course, allStudents: users, currentUser: req.user });
       })
       .catch(err => { throw new Error(err) });
     })

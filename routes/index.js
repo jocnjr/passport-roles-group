@@ -41,7 +41,7 @@ router.get("/user/:id", (req, res, next) => {
     // .populate("author")
     .then(user => {
       // res.send(user);
-      res.render("user-detail", { user });
+      res.render("user-detail", { user, currentUser: req.user });
     })
     .catch(error => {
       throw new Error(error);
@@ -55,7 +55,7 @@ router.get("/users/delete/:id", (req, res, next) => {
   User.findOne({ _id: userId })
     // .populate("author")
     .then(user => {
-      res.render("user-delete", { user });
+      res.render("user-delete", { user, currentUser: req.user });
     })
     .catch(error => {
       throw new Error(error);
@@ -66,7 +66,7 @@ router.post("/users/delete", (req, res, next) => {
   let userId = req.body.id;
   User.deleteOne({ _id: userId })
     .then(user => {
-      res.render("user-delete", { message: `user ${user.name} deleted!` });    
+      res.render("user-delete", { message: `user ${user.name} deleted!`, currentUser: req.user });    
     })
     .catch(error => {
       throw new Error(error);
@@ -94,7 +94,7 @@ router.get("/course/:id", (req, res, next) => {
     .populate("students")
     .then(course => {
       // res.send(user);
-      res.render("course-detail", { course });
+      res.render("course-detail", { course, currentUser: req.user });
     })
     .catch(error => {
       throw new Error(error);
@@ -108,7 +108,7 @@ router.get("/courses/delete/:id", (req, res, next) => {
   Course.findOne({ _id: courseId })
     // .populate("author")
     .then(course => {
-      res.render("course-delete", { course });
+      res.render("course-delete", { course, currentUser: req.user });
     })
     .catch(error => {
       console.log(error);
@@ -119,7 +119,7 @@ router.post("/courses/delete", (req, res, next) => {
   let courseId = req.body.id;
   Course.deleteOne({ _id: courseId })
     .then(course => {
-      res.render("course-delete", { message: `course ${course.title} deleted!` });    
+      res.render("course-delete", { message: `course ${course.title} deleted!`, currentUser: req.user });    
     })
     .catch(err => {
       throw new Error(err);

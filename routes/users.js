@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const roles = require('../middlewares/roles');
 const User = require('../models/user');
+const bcrypt = require("bcrypt");
+const bcryptSalt = 10;
 
 router.get("/users", (req, res, next) => {
   if (req.user.role === 'BOSS') req.user.isBoss = true;
@@ -41,8 +43,10 @@ router.get("/user/:id", (req, res, next) => {
 });
 
 router.get("/users/add", roles.checkBoss, (req, res, next) => {
-    res.render("user-add");
-  });
+    let user = new User();
+    user._id = null;
+    res.render("user-form", { user, currentUser: req.user });
+});
   
 router.post("/users/add", (req, res, next) => {
     const {
@@ -55,7 +59,7 @@ router.post("/users/add", (req, res, next) => {
     } = req.body;
   
     if (username == '' || password == '') {
-      res.render('user-add', {
+      res.render('user-form', {
         msgError: `username and password can't be empty`
       })
       return;
@@ -64,7 +68,7 @@ router.post("/users/add", (req, res, next) => {
     User.findOne({ "username": username })
     .then(user => {
       if (user !== null) {
-        res.render("user-add", {
+        res.render("user-form", {
           msgError: "The username already exists!"
         });
         return;
@@ -99,7 +103,7 @@ router.get("/users/edit/:id", (req, res, next) => {
       .then(user => {
         console.log(user)
         if (user._id.equals(req.user._id)) {
-          res.render("user-edit", { user });
+          res.render("user-form", { user });
         } else {
           // no access for you!
           res.redirect(`/user/${user._id}`);

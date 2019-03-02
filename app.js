@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const session = require("express-session");
+const MongoStore = require('connect-mongo')(session);
 const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -60,6 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: "our-passport-local-strategy-app",
+  store: new MongoStore({ url: 'mongodb://localhost/passport-roles-group' }),
   resave: true,
   saveUninitialized: true
 }));
